@@ -1,0 +1,6 @@
+{
+  "name": "AURA",
+  "description": "YOUR MUSIC. YOUR UNIVERSE. Premium anime-inspired music player featuring local audio playback, online discovery, background playback, playlists, and voice control.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+echo "DEBUG: Checking Java..."
+if [ -n "$JAVA_HOME" ]; then
+    echo "JAVA_HOME is set to: $JAVA_HOME"
+    if [ -x "$JAVA_HOME/bin/java" ]; then
+        echo "Found java at: $JAVA_HOME/bin/java"
+        "$JAVA_HOME/bin/java" -version
+    else
+        echo "Java not found at: $JAVA_HOME/bin/java"
+    fi
+else
+    echo "JAVA_HOME is not set"
+    if [ -x "java" ]; then
+        echo "Found java in PATH"
+        java -version
+    else
+        echo "Java not found in PATH"
+    fi
+fi
+echo "DEBUG: Checking wrapper JAR..."
+if [ -f "gradle/wrapper/gradle-wrapper.jar" ]; then
+    echo "Wrapper JAR found"
+else
+    echo "Wrapper JAR NOT found"
+fi
+echo "DEBUG: About to execute Java..."
+if [ -n "$JAVA_HOME" ] && [ -x "$JAVA_HOME/bin/java" ]; then
+    echo "Executing: $JAVA_HOME/bin/java -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain --version"
+    "$JAVA_HOME/bin/java" -classpath "gradle/wrapper/gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain --version
+elif [ -x "java" ]; then
+    echo "Executing: java -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain --version"
+    java -classpath "gradle/wrapper/gradle-wrapper.jar" org.gradle.wrapper.GradleWrapperMain --version
+else
+    echo "Cannot find Java to execute"
+fi

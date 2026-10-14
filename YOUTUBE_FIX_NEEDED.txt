@@ -1,0 +1,29 @@
+YOUTUBE RESOLUTION FIX NEEDED
+==============================
+
+CURRENT STATE (lines 329-335):
+329 |         } catch (e: Exception) {
+330 |             e.printStackTrace()
+331 |         }
+332 | 
+333 |         // Reliable CDN fallback so playback never stalls or goes silent
+334 |         openCatalog.first().mediaUri
+335 |     }
+
+REQUIRED STATE:
+329 |         } catch (e: Exception) {
+330 |             e.printStackTrace()
+331 |             throw e // Re-throw the exception so the caller knows resolution failed
+332 |         }
+333 |     }
+
+CHANGES NEEDED:
+- DELETE lines 333-334 (the fallback comment and return statement)
+- ADD line 331: "             throw e // Re-throw the exception so the caller knows resolution failed"
+- RESULT: Proper error propagation instead of silent wrong-track playback
+
+IMPACT: 
+- Eliminates dangerous fallback that caused YouTube resolution failures 
+  to silently play unrelated tracks from open catalog
+- Ensures resolution failures are properly reported to UI layer
+- No heavy dependencies required - pure code fix
